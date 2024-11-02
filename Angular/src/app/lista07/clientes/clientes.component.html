@@ -1,0 +1,22 @@
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th scope="col">#</th>
+			<th scope="col">Nome</th>
+			<th scope="col">CPF</th>
+			<th scope="col">Email</th>
+		</tr>
+	</thead>
+	<tbody>
+		@for (cliente of clientes; track cliente.nome; let i = $index) {
+			<tr>
+				<th scope="row">{{ i + 1 }}</th>
+				<td>
+					
+				</td>
+				<td>{{ cliente.nome }}</td>
+				<td>{{ cliente.cpf }}</td>
+			</tr>
+		}
+	</tbody>
+</table>

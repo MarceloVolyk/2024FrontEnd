@@ -42,6 +42,12 @@ const routes: Routes = [
       { path: 'two', component: TwoWayComponent },
       { path: 'diretivas', component: DiretivasEstruturaisComponent },
       {path: 'clientes', component: ClientesComponent},
+      {
+        path: 'lista07',
+        loadChildren: () =>
+          import('./lista07/lista07.module').then((m) => m.Lista07Module),
+      },
+      { path: 'clientes', component: ClientesComponent },
     ],
   },
 ];
