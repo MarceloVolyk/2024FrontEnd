@@ -7,9 +7,9 @@ async function connect(){
     const connection = await mysql.createConnection({
         host: 'localhost',
         user: 'root',
-        password: 'usbw',
+        password: '123456',
         database: 'vendased',
-        port: 3308
+        port: 3306
     })
     console.log('Conectou no MySQL');
     global.connection = connection;

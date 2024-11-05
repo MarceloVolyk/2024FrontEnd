@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { UsuarioService } from '../../lista07/usuario-service.service';
 
 @Component({
   selector: 'app-rodape',
@@ -6,5 +7,8 @@ import { Component } from '@angular/core';
   styleUrl: './rodape.component.scss'
 })
 export class RodapeComponent {
+  
+  }
 
-}
+
+

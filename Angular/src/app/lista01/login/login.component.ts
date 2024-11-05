@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { UsuarioService } from '../../lista07/usuario-service.service';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +13,7 @@ export class LoginComponent {
   senha = '123456';
   erro: boolean = false;
 
-  constructor(private router : Router) { }
+  constructor(private router : Router, private service : UsuarioService) { }
 
   textoDigitado(texto: any)
   {
@@ -21,6 +22,7 @@ export class LoginComponent {
   entrar(){
     if (this.usuario == 'admin' && this.senha == 'admin') {
       this.router.navigate(['/principal']);
+      this.service.setUsuario(this.usuario);
       
     } else {
       this.erro = true;

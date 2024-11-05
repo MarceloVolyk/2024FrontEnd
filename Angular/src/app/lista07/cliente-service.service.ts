@@ -30,8 +30,8 @@ export class ClienteServiceService {
   }
 
   // d. atualizaCliente(cliente): atualiza o cliente passado
-  atualizaCliente(cliente: any) {
-    return fetch(this.link, {
+  atualizaCliente(id: number, cliente: any) {
+    return fetch(`${this.link}/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
@@ -42,7 +42,7 @@ export class ClienteServiceService {
 
   // e. excluiCliente(id): exclui o cliente cujo id foi passado
   excluiCliente(id: number) {
-    return fetch(this.link, {
+    return fetch(`${this.link}/${id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json'

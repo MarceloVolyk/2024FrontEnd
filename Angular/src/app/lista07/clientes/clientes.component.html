@@ -1,22 +1,48 @@
+<div class="container">
+<button id="exibir-clientes" onclick="getClientes()">Exibir Clientes</button>
 <table class="table table-striped">
 	<thead>
 		<tr>
-			<th scope="col">#</th>
 			<th scope="col">Nome</th>
-			<th scope="col">CPF</th>
 			<th scope="col">Email</th>
+			<th scope="col">CPF</th>
+			<th scope="col">Cidade</th>
 		</tr>
 	</thead>
 	<tbody>
-		@for (cliente of clientes; track cliente.nome; let i = $index) {
-			<tr>
-				<th scope="row">{{ i + 1 }}</th>
-				<td>
-					
-				</td>
+			<tr *ngFor="let cliente of clientes">
 				<td>{{ cliente.nome }}</td>
+				<td>{{ cliente.email }}</td>
 				<td>{{ cliente.cpf }}</td>
+				<td>{{ cliente.cidade }}</td>
+				<td>
+					<button class="btn btn-warning btn-sm mr-2 ml-2" onclick="atualizaCliente(cliente)">Editar</button>
+
+					<button class="btn btn-danger btn-sm mr-2 ml-2" onclick="excluiCliente(cliente.id)">Excluir</button>
+				</td>
 			</tr>
-		}
-	</tbody>
-</table>
+		
+		</tbody>
+	</table>
+		<form (ngSubmit)="salvarCliente()" #clienteForm="ngForm">
+		<h3>{{editando ? 'Editar Cliente' : 'Novo Cliente}}</h3>
+
+		<div class="form-group">
+			<label for="nome">Nome</label>
+			<input type="email" id="email" [(ngModel)]="clienteSelecionado.email" name="email" class="form-control" required>
+		</div>
+
+		<div class="form-group">
+			<label for="nome">Cidade</label>
+			<input type="text" id="cidade" [(ngModel)]="clienteSelecionado.cidade" name="cidade" class="form-control" required>
+		</div>
+
+		<div class="form-group">
+			<label for="nome">CPF</label>
+			<input type="text" id="cpf" [(ngModel)]="clienteSelecionado.cpf" name="cpf" class="form-control" required>
+		</div>
+
+		<button type="submit" class="btn btn-primary">{{editando ? 'Salvar Alterações' : 'Adicionar Cliente'}}</button>
+		<button type="button" class="btn btn-secondary"(click)="cancelarEdicao()" *ngIf="editando">Cancelar</button>
+	</form>
+</div>

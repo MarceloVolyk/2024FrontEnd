@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ClienteServiceService } from '../cliente-service.service';
 
 @Component({
@@ -6,35 +6,63 @@ import { ClienteServiceService } from '../cliente-service.service';
   templateUrl: './clientes.component.html',
   styleUrl: './clientes.component.scss',
 })
-export class ClientesComponent {
-  clientes: any = [];
-  constructor(private serv: ClienteServiceService) {
-    this.serv.getClientes().then((data) => {
-      console.log(data);
+export class ClientesComponent implements OnInit {
+  clientes: any[] = [];
+  clienteSelecionado: any = {}
+  editando: boolean = false
+
+  constructor(private serv: ClienteServiceService) { }
+
+  ngOnInit(): void {
+    this.carregarClientes();
+  }
+
+  carregarClientes() {
+    this.serv.getClientes().then((data: any[]) => {
       this.clientes = data;
+    }).catch(error => {
+      console.error('Erro ao carregar clientes:', error);
     });
-    this.serv.getCliente(3).then((data) => {
-      console.log(data);
-      this.clientes = data;
+  }
+
+  salvarCliente() {
+    if (this.editando) {
+      // Atualiza o cliente existente
+      this.serv.atualizaCliente(this.clienteSelecionado.id, this.clienteSelecionado).then(() => {
+        this.carregarClientes();
+        this.cancelarEdicao();
+      }).catch(error => {
+        console.error('Erro ao atualizar cliente:', error);
+      });
+    } else {
+      // Adiciona um novo cliente
+      this.serv.setCliente(this.clienteSelecionado).then(() => {
+        this.carregarClientes();
+        this.clienteSelecionado = {}; // Limpa o formulário após adicionar
+      }).catch(error => {
+        console.error('Erro ao adicionar cliente:', error);
+      });
+    }
+  }
+
+  editarCliente(cliente: any) {
+    this.clienteSelecionado = { ...cliente }; // Copia o cliente para edição
+    this.editando = true; // Muda para o modo de edição
+  }
+
+  excluirCliente(id: number) {
+    this.serv.excluiCliente(id).then(() => {
+      this.carregarClientes();
+    }).catch(error => {
+      console.error('Erro ao excluir cliente:', error);
     });
-    let cliente: any = {
-      nome: 'Marcelo',
-      rg: '511564654',
-      cpf: '12389444',
-      email: 'marcelo@hotmail.com',
-      telefone: '65156151489',
-      celular: '546546546',
-      cep: '75641233',
-      endereco: 'rua das flores',
-      numero: '56465',
-      complemento: '84',
-      bairro: 'jardim garcia',
-      cidade: 'campinas',
-      estado: 'SP'
-    };
-    this.serv.setCliente(cliente).then((data) => {
-      console.log(data);
-      this.clientes = data;
-    })
+  }
+
+  cancelarEdicao() {
+    this.clienteSelecionado = {}; // Limpa o formulário
+    this.editando = false; // Sai do modo de edição
   }
 }
+  
+
+
